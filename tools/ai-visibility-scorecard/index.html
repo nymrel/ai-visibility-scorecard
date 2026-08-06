@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Visibility Scorecard — See if AI can find your business | Nymrel Tools</title>
+<meta name="description" content="Grade your site against 20 checks that decide whether ChatGPT, Claude, and Perplexity can find, read, and cite it. Free to run — fixes ranked by impact.">
+<link rel="canonical" href="https://nymrel.com/tools/ai-visibility-scorecard">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nymrel Tools">
+<meta property="og:title" content="AI Visibility Scorecard — See if AI can find your business">
+<meta property="og:description" content="A 20-check self-audit that grades whether AI assistants can find, read, and cite your website — with the fixes that matter most, ranked.">
+<meta property="og:url" content="https://nymrel.com/tools/ai-visibility-scorecard">
+<meta property="og:image" content="https://nymrel.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Visibility Scorecard — See if AI can find your business">
+<meta name="twitter:description" content="Grade your site against 20 checks that decide whether ChatGPT, Claude, and Perplexity can find, read, and cite it. Free to run.">
+<meta name="twitter:image" content="https://nymrel.com/assets/og.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preload" href="/assets/fonts/instrumentserif-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/instrumentsans-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI Visibility Scorecard",
+      "url": "https://nymrel.com/tools/ai-visibility-scorecard",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web browser",
+      "description": "A 20-check self-audit that grades whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website, then ranks the fixes that matter most.",
+      "publisher": {
+        "@id": "https://nymrel.com/#organization"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Pro Report",
+          "price": "9",
+          "priceCurrency": "USD"
+        }
+      ],
+      "creator": {
+        "@id": "https://nymrel.com/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Tools",
+          "item": "https://nymrel.com/tools"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI Visibility Scorecard",
+          "item": "https://nymrel.com/tools/ai-visibility-scorecard"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is AI visibility?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website when people ask them questions. It depends on your robots.txt rules, structured data, an llms.txt file, plain content, and off-site proof."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the scorecard work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tick every check your site already passes. It scores you 0 to 100, gives you a grade, and ranks the unchecked items by how much each would raise your score. Everything updates live as you tick."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a developer to fix these?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Some checks are copy edits you can do yourself, like writing an about page or plain headings. Others, like robots.txt and JSON-LD, may need a developer. The ranked list tells you what matters most first so you can spend the help where it counts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Everything runs in your browser. Nothing you tick or type ever leaves your device — there is no server collecting it. Your answers are saved only in this browser so you can come back to them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I get in the 9 dollar Pro Report?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A printable report built from the checks you ticked: every missing item written up in full, ordered by impact, with a copy-paste snippet for your stack (Next.js, WordPress, Shopify, or plain HTML). It includes a calendar reminder dated 30 days out and a saved baseline file, so the re-check is a real before-and-after. It is generated in your browser and downloads right after checkout."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  /* page-specific layout — reuses design tokens, does not restyle core components */
+  .check-group { margin-bottom: 1.7rem; }
+  .grp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0 0 0.75rem; }
+  .grp-name { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); }
+  .grp-pts { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.1em; color: var(--ink-faint); white-space: nowrap; }
+  .c-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .c-t { font-weight: 600; font-size: 0.95rem; color: var(--ink); transition: color 0.15s; }
+  .c-e { font-size: 0.81rem; color: var(--ink-dim); line-height: 1.45; }
+  .c-h { align-self: flex-start; font-family: var(--font-mono); font-size: 0.69rem; color: var(--ink-faint); background: var(--bg-deep); border: 1px solid var(--line); border-radius: 5px; padding: 2px 8px; margin-top: 4px; max-width: 100%; overflow-wrap: anywhere; }
+  .check-row.checked { border-color: color-mix(in srgb, var(--brass) 46%, transparent); background: var(--brass-dim); }
+  .check-row.checked .c-t { color: var(--brass-bright); }
+
+  .ctrl-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.3rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+  .ctrl-head .lab { margin: 0; }
+
+  .score-wrap { padding: 1.5rem; }
+  .score-big { font-family: var(--font-display); font-size: 4.4rem; line-height: 0.9; color: var(--ink); }
+  .score-big small { font-size: 1.1rem; color: var(--ink-faint); font-family: var(--font-mono); margin-left: 4px; }
+  .grade { font-family: var(--font-mono); font-size: 0.86rem; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 8px; font-weight: 500; }
+
+  .mini-stats { margin: 1.5rem 0 0.4rem; display: flex; flex-direction: column; gap: 11px; }
+  .ms-top { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.71rem; margin-bottom: 5px; }
+  .ms-name { color: var(--ink-dim); letter-spacing: 0.03em; }
+  .ms-val { color: var(--ink); }
+  .ms .meter { height: 5px; }
+
+  .fix-head { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin: 1.6rem 0 0.4rem; }
+  .fix-lead { font-size: 0.8rem; color: var(--ink-faint); margin: 0 0 0.7rem; }
+  .fix { display: flex; gap: 11px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
+  .fix-w { font-family: var(--font-mono); font-size: 0.71rem; color: var(--brass); background: var(--brass-dim); border-radius: 5px; padding: 2px 8px; flex-shrink: 0; margin-top: 1px; }
+  .fix-t { font-size: 0.86rem; color: var(--ink-dim); line-height: 1.46; }
+  .all-good { padding: 15px; border: 1px solid color-mix(in srgb, var(--ok) 45%, transparent); background: rgba(143, 191, 111, 0.08); border-radius: 9px; color: var(--ink-dim); font-size: 0.9rem; line-height: 1.5; }
+  .out-actions { padding: 0 1.5rem 1.5rem; }
+
+  /* the 3-step "how it works" strip */
+  .steps { counter-reset: step; }
+  .steps .stat { position: relative; }
+  .steps .snum { font-family: var(--font-mono); color: var(--brass); font-size: 0.72rem; letter-spacing: 0.14em; }
+  .steps h3 { font-size: 1.15rem; margin: 0.5rem 0 0.3rem; }
+  .steps p { color: var(--ink-dim); font-size: 0.92rem; margin: 0; }
+
+  /* hero glyph line */
+  .hero-glyph { margin-bottom: 1.1rem; }
+
+  /* controls header actions */
+  .ch-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  @media (max-width: 460px) { .ctrl-head { flex-wrap: wrap; } }
+
+  /* live per-group tick count on the left column headers */
+  .grp-count { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-dim); border-radius: 5px; padding: 1px 7px; margin-left: 8px; }
+
+  /* check-row tick feedback — CSS only, motion-safe */
+  .c-t { display: inline-block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .check-row input:checked { animation: jbt-tick 0.32s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .check-row input:checked ~ .c-body .c-t { animation: jbt-nudge 0.32s ease; }
+  }
+  @keyframes jbt-tick { 0% { transform: scale(0.55); } 55% { transform: scale(1.16); } 100% { transform: scale(1); } }
+  @keyframes jbt-nudge { 0% { transform: translateX(0); } 45% { transform: translateX(3px); } 100% { transform: translateX(0); } }
+
+  /* semicircular score gauge */
+  .gauge { position: relative; width: 100%; max-width: 248px; margin: 0.2rem auto 0; }
+  .gauge-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .gauge-track { stroke: var(--line-strong); stroke-width: 9; fill: none; stroke-linecap: round; }
+  .gauge-fill { stroke: var(--accent); stroke-width: 9; fill: none; stroke-linecap: round; stroke-dasharray: 251.4; stroke-dashoffset: 251.4; transition: stroke-dashoffset 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), stroke 0.4s; }
+  @media (prefers-reduced-motion: reduce) { .gauge-fill { transition: none; } }
+  .gauge-center { position: absolute; left: 0; right: 0; top: 40%; text-align: center; }
+  .gauge-num { font-family: var(--font-display); font-size: 3.5rem; line-height: 0.85; color: var(--ink); }
+  .gauge-num small { font-size: 0.92rem; color: var(--ink-faint); font-family: var(--font-mono); margin-left: 2px; }
+  .gauge-center .grade { margin-top: 3px; }
+  .score-cap { text-align: center; font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.08em; margin-top: 0.8rem; }
+
+  /* bench-head inline print action */
+  .bh-action { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); background: transparent; border: 1px solid var(--line-strong); border-radius: 6px; padding: 5px 11px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .bh-action:hover { color: var(--accent); border-color: var(--accent); }
+  .bh-action svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+
+  /* "example site" banner */
+  .ex-banner { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-dim); background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 8px; padding: 8px 11px; margin-bottom: 1rem; }
+  .ex-reset { font-family: inherit; font-size: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* fix-list affordance line */
+  .fix-affordance { font-size: 0.77rem; color: var(--ink-faint); margin: 0 0 0.6rem; }
+
+  /* print-only clean report (hidden on screen) */
+  .print-summary { display: none; }
+  @media print {
+    .print-summary { display: block; }
+    .print-summary, .print-summary * { color: #16150f !important; }
+    .print-summary h2 { margin-bottom: 0.4rem; }
+    .print-summary .p-score { font-family: var(--font-display); font-size: 2.4rem; }
+    .print-summary table.data th { border-color: #bbb !important; }
+    .print-summary table.data td { border-color: #ddd !important; }
+    .print-summary ol { padding-left: 1.2rem; }
+    .print-summary li { margin-bottom: 5px; }
+  }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","@id":"https://nymrel.com/#organization","email":"contact@nymrel.com","legalName":"JalenBuilds LLC","name":"Nymrel","url":"https://nymrel.com"}
+</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body data-tool="scorecard" class="has-action-bar" data-pro-product="scorecard-pro" data-pro-module="scorecard-pro">
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="mark">◆</span> nymrel<span class="sub">/ tool works</span></a>
+    <nav class="primary" aria-label="Primary">
+      <a href="/tools/ai-visibility-scorecard/" class="active">Scorecard</a>
+      <a href="/tools/llms-txt-generator/">llms.txt</a>
+      <a href="/tools/json-ld-generator/">JSON-LD</a>
+      <a href="/tools/qr-utm-generator/">QR + UTM</a>
+      <a href="/tools/token-spend-dashboard/">Token Ledger</a>
+      <a href="/tools/chatgpt-recommends/">ChatGPT Check</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumbs wrap no-print" aria-label="Breadcrumb">
+    <a href="/">Tools</a> <span class="sep">/</span> AI Visibility Scorecard
+  </nav>
+
+  <section class="hero no-print" style="padding:3.5rem 0 3rem">
+    <div class="wrap">
+      <div class="kicker reveal in">AI visibility · 20-check self-audit</div>
+      <div class="hero-glyph reveal in">
+        <div class="tool-glyph" aria-hidden="true"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round"><path d="M8 32 A16 16 0 0 1 40 32"/><path d="M8 32 L11.5 32 M24 16 L24 19.5 M40 32 L36.5 32"/><path d="M24 32 L33 22"/><circle cx="24" cy="32" r="2.4"/></svg></div>
+      </div>
+      <h1 class="reveal in" style="max-width:12em">Can ChatGPT find your business?</h1>
+      <p class="lede reveal reveal-1 in">Tick twenty checks and see, in one score out of 100, whether AI assistants can find, read, and cite your site — then get the fixes that matter most, ranked. Everything runs in your browser.</p>
+    </div>
+  </section>
+
+  <section class="wrap no-print" id="tool">
+    <div class="workbench">
+
+      <!-- LEFT: the audit -->
+      <div class="controls reveal reveal-1">
+        <div class="hint-once" id="hintOnce">
+          <span>Tick what your site already has — the score and fix list update live. New here? <b>Try an example</b> to watch it work.</span>
+          <button class="hx" id="hintClose" type="button" aria-label="Dismiss hint">×</button>
+        </div>
+        <div class="ctrl-head">
+          <span class="lab">Tick what your site already does</span>
+          <div class="ch-actions">
+            <button class="try-btn" id="tryBtn" type="button">Try an example</button>
+            <button class="btn btn-ghost btn-sm" id="resetBtn" type="button">Reset</button>
+          </div>
+        </div>
+        <p class="help" style="margin:-0.6rem 0 1.4rem">Not sure about one? Use the grey hint to test it. Your answers stay in this browser.</p>
+
+        <div id="checks">
+
+          <div class="check-group" data-group="0">
+            <div class="grp-head"><span class="grp-name">1 · Crawl access <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
+            <label class="check-row" data-sec="0" data-w="6" data-fix="Add User-agent: GPTBot with Allow: / (plus ClaudeBot and PerplexityBot) to your robots.txt.">
+              <input type="checkbox" data-id="robots">
+              <span class="c-body">
+                <strong class="c-t">robots.txt allows AI crawlers</strong>
+                <span class="c-e">AI crawlers read this first. Block them here and nothing else you do matters.</span>
+                <span class="c-h">curl yoursite.com/robots.txt</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="0" data-w="6" data-fix="Publish /sitemap.xml and add a Sitemap: line pointing to it in robots.txt.">
+              <input type="checkbox" data-id="sitemap">
+              <span class="c-body">
+                <strong class="c-t">sitemap.xml exists and is linked</strong>
+                <span class="c-e">A sitemap lists every page you want found, and robots.txt should point to it.</span>
+                <span class="c-h">open yoursite.com/sitemap.xml</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="0" data-w="6" data-fix="Publish /llms.txt at your root — who you are, what you do, and links to your key pages.">
+              <input type="checkbox" data-id="llms">
+              <span class="c-body">
+                <strong class="c-t">llms.txt at your site root</strong>
+                <span class="c-e">The file AI assistants look for to understand your site quickly.</span>
+                <span class="c-h">open yoursite.com/llms.txt</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="0" data-w="6" data-fix="Server-render or pre-render your core text so it sits in the raw HTML, not loaded by JavaScript.">
+              <input type="checkbox" data-id="ssr">
+              <span class="c-body">
+                <strong class="c-t">Text works without JavaScript</strong>
+                <span class="c-e">Most AI crawlers don't run JavaScript — if your text loads by JS, they see nothing.</span>
+                <span class="c-h">curl yoursite.com | find your headline</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="check-group" data-group="1">
+            <div class="grp-head"><span class="grp-name">2 · Structured data <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
+            <label class="check-row" data-sec="1" data-w="6" data-fix="Add Organization (or LocalBusiness) JSON-LD to your homepage head — name, logo, and contact.">
+              <input type="checkbox" data-id="org">
+              <span class="c-body">
+                <strong class="c-t">Organization schema on the homepage</strong>
+                <span class="c-e">Tells AI who you are — name, logo, contact — in a format it trusts.</span>
+                <span class="c-h">view-source, search "@type":"Organization"</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="1" data-w="6" data-fix="Add Product or Service plus Offer JSON-LD (name, description, price) to each offer page.">
+              <input type="checkbox" data-id="offer">
+              <span class="c-body">
+                <strong class="c-t">Offer / Product schema on offer pages</strong>
+                <span class="c-e">Describes what you sell and the price, so AI can quote it accurately.</span>
+                <span class="c-h">view-source, search "@type":"Offer"</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="1" data-w="6" data-fix="Add FAQPage JSON-LD that mirrors the real questions and answers shown on your page.">
+              <input type="checkbox" data-id="faqschema">
+              <span class="c-body">
+                <strong class="c-t">FAQ schema with real questions</strong>
+                <span class="c-e">Real questions in schema get read back almost word-for-word by AI.</span>
+                <span class="c-h">view-source, search "FAQPage"</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="1" data-w="6" data-fix="Add Person JSON-LD for your founder with a sameAs list of their profiles (LinkedIn, etc.).">
+              <input type="checkbox" data-id="person">
+              <span class="c-body">
+                <strong class="c-t">Person schema for your founder</strong>
+                <span class="c-e">Ties a real person to your brand and links their profiles for credibility.</span>
+                <span class="c-h">view-source, search "@type":"Person"</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="check-group" data-group="2">
+            <div class="grp-head"><span class="grp-name">3 · Content signals <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Rewrite key headings as the questions customers actually ask (How much, Do you, What is).">
+              <input type="checkbox" data-id="questions">
+              <span class="c-body">
+                <strong class="c-t">Headings written as real questions</strong>
+                <span class="c-e">AI matches questions to headings — "How much does it cost?" beats "Pricing".</span>
+                <span class="c-h">read your H2s — are they questions?</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Cut jargon and acronyms — explain what you do in words a first-time visitor understands.">
+              <input type="checkbox" data-id="plain">
+              <span class="c-body">
+                <strong class="c-t">Plain language, no insider jargon</strong>
+                <span class="c-e">AI and customers can't cite what they can't understand. Say it simply.</span>
+                <span class="c-h">would a stranger get it with no context?</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Put your email and phone in a footer that shows on every page.">
+              <input type="checkbox" data-id="contact">
+              <span class="c-body">
+                <strong class="c-t">Contact info on every page</strong>
+                <span class="c-e">AI often hands out contact details — bury them and it can't.</span>
+                <span class="c-h">is email + phone in every footer?</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Write an /about page that states who you are, what you do, and who you serve — plainly.">
+              <input type="checkbox" data-id="about">
+              <span class="c-body">
+                <strong class="c-t">A clear about page</strong>
+                <span class="c-e">The page AI reads to summarize your business. Make it specific.</span>
+                <span class="c-h">does /about say who + what up top?</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="check-group" data-group="3">
+            <div class="grp-head"><span class="grp-name">4 · Technical basics <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <label class="check-row" data-sec="3" data-w="4.5" data-fix="Add a canonical link tag pointing to each page's true URL.">
+              <input type="checkbox" data-id="canonical">
+              <span class="c-body">
+                <strong class="c-t">Canonical URL on every page</strong>
+                <span class="c-e">Tells AI which URL is the real one, so it cites the right link.</span>
+                <span class="c-h">view-source, find rel="canonical"</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="3" data-w="4.5" data-fix="Add og:title, og:description, og:image and twitter:card meta tags to every page.">
+              <input type="checkbox" data-id="meta">
+              <span class="c-body">
+                <strong class="c-t">Open Graph + Twitter tags</strong>
+                <span class="c-e">Controls how your links read when shared or quoted by AI.</span>
+                <span class="c-h">view-source, search og:title + twitter:card</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="3" data-w="4.5" data-fix="Compress images and drop unused scripts — aim for main content under ~2.5s (LCP).">
+              <input type="checkbox" data-id="speed">
+              <span class="c-body">
+                <strong class="c-t">Loads fast (under ~2.5s)</strong>
+                <span class="c-e">Slow pages get crawled less and rank lower. Speed is visibility.</span>
+                <span class="c-h">run PageSpeed Insights → check LCP</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="3" data-w="4.5" data-fix="Use a responsive layout and test on a real phone — readable text, tappable buttons.">
+              <input type="checkbox" data-id="mobile">
+              <span class="c-body">
+                <strong class="c-t">Readable on a phone</strong>
+                <span class="c-e">Most crawls and most visitors are mobile. Break on a phone, lose both.</span>
+                <span class="c-h">open it on your phone — usable?</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="check-group" data-group="4">
+            <div class="grp-head"><span class="grp-name">5 · Authority <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <label class="check-row" data-sec="4" data-w="4.5" data-fix="Make your name, address, and phone identical across your site, Google, and every profile.">
+              <input type="checkbox" data-id="nap">
+              <span class="c-body">
+                <strong class="c-t">Name, address, phone all match</strong>
+                <span class="c-e">Mismatched details make AI unsure it's you — so it hedges or leaves you out.</span>
+                <span class="c-h">compare site vs Google vs socials</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="4" data-w="4.5" data-fix="List your LinkedIn, Google Business, and socials in a sameAs array in your JSON-LD.">
+              <input type="checkbox" data-id="sameas">
+              <span class="c-body">
+                <strong class="c-t">Profiles linked via sameAs</strong>
+                <span class="c-e">Proves your profiles are really yours and builds a trust graph.</span>
+                <span class="c-h">view-source, search "sameAs"</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="4" data-w="4.5" data-fix="Show real reviews or named client results on-site — and mark genuine ones up as Review schema.">
+              <input type="checkbox" data-id="proof">
+              <span class="c-body">
+                <strong class="c-t">Reviews or client proof on-site</strong>
+                <span class="c-e">Real proof makes AI confident enough to recommend you by name.</span>
+                <span class="c-h">any real reviews/clients on the page?</span>
+              </span>
+            </label>
+            <label class="check-row" data-sec="4" data-w="4.5" data-fix="Earn a few external mentions — directories, press, partners — that name your brand.">
+              <input type="checkbox" data-id="mentions">
+              <span class="c-body">
+                <strong class="c-t">Mentioned on other sites</strong>
+                <span class="c-e">AI trusts what others say about you, not just what you say.</span>
+                <span class="c-h">web-search your brand name</span>
+              </span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: live score -->
+      <div class="output reveal reveal-2">
+        <div class="bench-head">
+          <span><span class="dot"></span>Your score</span>
+          <button class="bh-action" id="printBtn" type="button" aria-label="Print my scorecard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
+            Print
+          </button>
+        </div>
+        <div class="score-wrap">
+          <div id="exampleBanner" class="ex-banner" style="display:none">Example site — <button type="button" class="ex-reset" id="exReset">reset to score your own</button>.</div>
+          <div class="gauge">
+            <svg class="gauge-svg" viewBox="0 0 200 112" aria-hidden="true">
+              <path class="gauge-track" d="M20 100 A80 80 0 0 1 180 100"/>
+              <path class="gauge-fill" id="gaugeArc" d="M20 100 A80 80 0 0 1 180 100"/>
+            </svg>
+            <div class="gauge-center" aria-live="polite">
+              <div class="gauge-num"><span id="scoreVal">0</span><small>/100</small></div>
+              <div class="grade" id="gradeLabel" style="color:var(--bad)">Invisible</div>
+            </div>
+          </div>
+          <div class="score-cap mono" id="scoreCount">0 / 20 checks</div>
+
+          <div class="mini-stats" id="miniStats"></div>
+
+          <div class="fix-head">Ranked fixes</div>
+          <p class="fix-lead" id="fixLead">Every check your site is missing, ranked by impact.</p>
+          <p class="fix-affordance" id="fixAffordance">Fixed one? Tick it above and it drops off this list.</p>
+          <div id="fixList"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section wrap no-print">
+    <div class="kicker">How it works</div>
+    <h2 style="margin-bottom:1.6rem">Three steps, no sign-up</h2>
+    <div class="grid-3 steps">
+      <div class="stat">
+        <div class="snum">STEP 01</div>
+        <h3>Tick what's true</h3>
+        <p>Go down the twenty checks and tick the ones your site already passes. Grey hints show you how to test each one.</p>
+      </div>
+      <div class="stat">
+        <div class="snum">STEP 02</div>
+        <h3>Read your score</h3>
+        <p>Your grade updates live — from Invisible to Cited authority — with a per-section breakdown so you see where you're weak.</p>
+      </div>
+      <div class="stat">
+        <div class="snum">STEP 03</div>
+        <h3>Work the fix list</h3>
+        <p>The unchecked items become a to-do list, ranked by impact. Start at the top and print it when you're done.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap no-print">
+    <div class="kicker">Pricing</div>
+    <h2 style="margin-bottom:0.4rem">Free to run. Pro when you want the fixes written out.</h2>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="tier">Free</div>
+        <div class="amount">$0</div>
+        <ul>
+          <li>All 20 checks, no account or email</li>
+          <li>Live 0–100 score and grade</li>
+          <li>Ranked fix list with plain instructions</li>
+          <li>Print your scorecard for the team</li>
+        </ul>
+        <a class="btn" href="#tool">Run it above</a>
+      </div>
+      <div class="price-card featured">
+        <div class="tier">Pro Report</div>
+        <div class="amount">$9 <small>one-time</small></div>
+        <ul>
+          <li>Copy-paste fix snippets for your exact stack — Next.js, WordPress, Shopify, or plain HTML</li>
+          <li>Every missing check written up in full, ordered by impact</li>
+          <li>A dated 30-day re-check reminder, plus a saved baseline to compare against</li>
+          <li>Downloads the moment you're back from checkout</li>
+        </ul>
+        <button class="btn btn-primary" data-buy="scorecard-pro">Get Pro Report — $9</button>
+        <p class="help" style="margin-top:0.9rem">Tick your checks above first — the report is built from your own answers, in your browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap no-print" aria-label="Optional expert audit">
+    <div class="kicker">When the free grade surfaces gaps</div>
+    <h2 style="margin-bottom:0.6rem">Want a second set of eyes on the fix list?</h2>
+    <p class="lede" style="font-size:1.05rem">The free scorecard stays fully useful: you keep the complete grade and ranked fixes. If you want a deeper review, Nymrel's $500 Agent-Ready Audit checks the live site through three reader types — classic search, AI answer engines, and autonomous agents — and returns a prioritized, evidence-backed report. It measures readiness and accuracy; it does not promise rankings or traffic.</p>
+    <a class="btn" href="https://nymrel.com/agent-ready">See the $500 Agent-Ready Audit</a>
+  </section>
+
+  <section class="section wrap no-print">
+    <div class="kicker">Questions, answered plainly</div>
+    <h2 style="margin-bottom:1.5rem">Before you ask</h2>
+    <div class="faq">
+      <details>
+        <summary>What is AI visibility?</summary>
+        <p class="a">Whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website when people ask them questions. It depends on your robots.txt rules, structured data, an llms.txt file, plain content, and off-site proof — the exact things this scorecard checks.</p>
+      </details>
+      <details>
+        <summary>How does the scorecard work?</summary>
+        <p class="a">Tick every check your site already passes. It scores you 0 to 100, gives you a grade, and ranks the unchecked items by how much each would raise your score. Everything updates live as you tick — nothing is submitted anywhere.</p>
+      </details>
+      <details>
+        <summary>Do I need a developer to fix these?</summary>
+        <p class="a">Some checks are copy edits you can do yourself, like writing an about page or plain headings. Others, like robots.txt and JSON-LD, may need a developer. The ranked list tells you what matters most first, so you spend any help where it counts.</p>
+      </details>
+      <details>
+        <summary>Is my data safe?</summary>
+        <p class="a">Yes. Everything runs in your browser. Nothing you tick or type ever leaves your device — there is no server collecting it. Your answers are saved only in this browser so you can come back to them later.</p>
+      </details>
+      <details>
+        <summary>What do I get in the $9 Pro Report?</summary>
+        <p class="a">A printable report built from the checks you ticked: every missing item written up in full, ordered by impact, with a copy-paste snippet for your stack (Next.js, WordPress, Shopify, or plain HTML). It comes with a calendar reminder dated 30 days out and a saved baseline file, so the re-check is a real before-and-after rather than a guess. Questions: <a href="mailto:contact@nymrel.com">contact@nymrel.com</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- clean print report (screen-hidden; kept in sync by JS) -->
+  <section class="print-summary wrap">
+    <h2>AI Visibility Scorecard</h2>
+    <p><span class="p-score" id="pScore">0</span>/100 — <strong id="pGrade">Invisible</strong> &nbsp;·&nbsp; <span id="pCount">0 of 20 checks</span></p>
+    <table class="data" style="margin:1rem 0">
+      <thead><tr><th>Section</th><th>Checks</th><th>Points</th></tr></thead>
+      <tbody id="pSections"></tbody>
+    </table>
+    <h3 style="font-size:1.2rem">Ranked fixes</h3>
+    <ol id="pFixes"></ol>
+    <p class="mono" style="font-size:0.75rem;margin-top:1.2rem">nymrel.com/tools/ai-visibility-scorecard · <span data-year>2026</span></p>
+  </section>
+
+  <div class="action-bar no-print" role="group" aria-label="Scorecard actions">
+    <button class="btn btn-primary" id="barPrint" type="button">Print scorecard</button>
+    <button class="btn" id="barReset" type="button">Reset</button>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap cols">
+    <div>
+      <p class="fh">Nymrel Tools</p>
+      <p style="max-width:26em">Small, sharp tools from a working studio. Everything runs in your browser; nothing you paste leaves your device.</p>
+      <p class="mono" style="font-size:0.78rem">© <span data-year>2026</span> JalenBuilds LLC</p>
+      <p class="mono" style="font-size:0.78rem"><a href="https://nymrel.com?utm_source=jalenbuilds-tools&amp;utm_medium=footer-credit&amp;utm_campaign=built-by-nymrel" rel="author">Built by Nymrel</a></p>
+    </div>
+    <div>
+      <p class="fh">Catalog</p>
+      <ul>
+        <li><a href="/tools/ai-visibility-scorecard/">AI Visibility Scorecard</a></li>
+        <li><a href="/tools/llms-txt-generator/">llms.txt Generator</a></li>
+        <li><a href="/tools/json-ld-generator/">JSON-LD Studio</a></li>
+        <li><a href="/tools/qr-utm-generator/">QR + UTM Studio</a></li>
+        <li><a href="/tools/token-spend-dashboard/">Token Ledger</a></li>
+        <li><a href="/tools/chatgpt-recommends/">ChatGPT Check</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="fh">Studio</p>
+      <ul>
+        <li><a href="mailto:contact@nymrel.com">contact@nymrel.com</a></li>
+        <li><a href="/llms.txt">llms.txt</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/checkout-config.js"></script>
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var STORE_KEY = "jbt.scorecard.checks";
+  var SECTION_NAMES = ["Crawl access", "Structured data", "Content signals", "Technical basics", "Authority"];
+
+  var checksEl   = document.getElementById("checks");
+  var scoreVal   = document.getElementById("scoreVal");
+  var scoreCount = document.getElementById("scoreCount");
+  var gaugeArc   = document.getElementById("gaugeArc");
+  var gradeLabel = document.getElementById("gradeLabel");
+  var miniStats  = document.getElementById("miniStats");
+  var fixList    = document.getElementById("fixList");
+  var fixLead    = document.getElementById("fixLead");
+  var pScore     = document.getElementById("pScore");
+  var pGrade     = document.getElementById("pGrade");
+  var pCount     = document.getElementById("pCount");
+  var pSections  = document.getElementById("pSections");
+  var pFixes     = document.getElementById("pFixes");
+  var exampleBanner = document.getElementById("exampleBanner");
+  var grpCounts  = Array.prototype.slice.call(document.querySelectorAll(".grp-count"));
+
+  var GAUGE_LEN = 251.4;   // ~π·80, matches the gauge arc's CSS stroke-dasharray
+  var exampleActive = false;
+  // A realistic mid-scoring site: the basics most sites have, none of the AI-specific work.
+  var EXAMPLE_IDS = { sitemap: 1, ssr: 1, org: 1, meta: 1, canonical: 1, mobile: 1, speed: 1, contact: 1, about: 1, plain: 1 };
+
+  var rows = Array.prototype.slice.call(checksEl.querySelectorAll(".check-row"));
+
+  function gradeFor(score) {
+    if (score < 40) return { label: "Invisible",        color: "var(--bad)",          grad: "linear-gradient(90deg,#8f4034,var(--bad))" };
+    if (score < 65) return { label: "Faint",            color: "var(--warn)",         grad: "linear-gradient(90deg,var(--copper),var(--warn))" };
+    if (score < 85) return { label: "Findable",         color: "var(--brass-bright)", grad: "linear-gradient(90deg,var(--brass),var(--brass-bright))" };
+    return             { label: "Cited authority",  color: "var(--ok)",           grad: "linear-gradient(90deg,#5f9048,var(--ok))" };
+  }
+
+  function loadState() {
+    var saved = {};
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var arr = JSON.parse(raw);
+        if (arr && arr.length) { for (var i = 0; i < arr.length; i++) saved[arr[i]] = true; }
+      }
+    } catch (e) { /* private mode / disabled storage — run without persistence */ }
+    rows.forEach(function (row) {
+      var input = row.querySelector("input");
+      input.checked = !!saved[input.getAttribute("data-id")];
+    });
+  }
+
+  function saveState() {
+    var ids = [];
+    rows.forEach(function (row) {
+      var input = row.querySelector("input");
+      if (input.checked) ids.push(input.getAttribute("data-id"));
+    });
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(ids)); } catch (e) { /* ignore */ }
+  }
+
+  function metaFix(w) { return Math.round(w / 102 * 100); } // display impact of one item, ~102 raw total
+
+  function render() {
+    var checkedRaw = 0, checkedCount = 0;
+    var secChk = [0, 0, 0, 0, 0], secRaw = [0, 0, 0, 0, 0], secMax = [0, 0, 0, 0, 0], secCnt = [0, 0, 0, 0, 0];
+    var fixes = [];
+
+    rows.forEach(function (row, idx) {
+      var input = row.querySelector("input");
+      var w = parseFloat(row.getAttribute("data-w"));
+      var sec = parseInt(row.getAttribute("data-sec"), 10);
+      secMax[sec] += w; secCnt[sec] += 1;
+      if (input.checked) {
+        checkedRaw += w; checkedCount += 1; secChk[sec] += 1; secRaw[sec] += w;
+        row.classList.add("checked");
+      } else {
+        row.classList.remove("checked");
+        fixes.push({ w: w, t: row.getAttribute("data-fix"), i: idx });
+      }
+    });
+
+    var maxRaw = secMax[0] + secMax[1] + secMax[2] + secMax[3] + secMax[4]; // 102
+    var score = Math.round(checkedRaw / maxRaw * 100);
+    var g = gradeFor(score);
+
+    // headline score + gauge arc
+    scoreVal.textContent = String(score);
+    scoreCount.textContent = checkedCount + " / 20 checks";
+    gaugeArc.style.strokeDashoffset = String(GAUGE_LEN * (1 - score / 100));
+    gaugeArc.style.stroke = g.color;
+    gradeLabel.textContent = g.label;
+    gradeLabel.style.color = g.color;
+
+    // live per-group tick counts (left column headers)
+    for (var gc = 0; gc < grpCounts.length; gc++) {
+      grpCounts[gc].textContent = secChk[gc] + "/" + secCnt[gc];
+    }
+
+    // per-section mini-stats
+    miniStats.innerHTML = "";
+    for (var s = 0; s < 5; s++) {
+      var pct = Math.round(secRaw[s] / secMax[s] * 100);
+      var ms = document.createElement("div");
+      ms.className = "ms";
+      var top = document.createElement("div");
+      top.className = "ms-top";
+      var nm = document.createElement("span"); nm.className = "ms-name mono"; nm.textContent = SECTION_NAMES[s];
+      var vl = document.createElement("span"); vl.className = "ms-val mono"; vl.textContent = secChk[s] + "/" + secCnt[s];
+      top.appendChild(nm); top.appendChild(vl);
+      var meter = document.createElement("div"); meter.className = "meter";
+      var bar = document.createElement("i"); bar.style.width = pct + "%";
+      meter.appendChild(bar);
+      ms.appendChild(top); ms.appendChild(meter);
+      miniStats.appendChild(ms);
+    }
+
+    // ranked fixes (weight desc, stable by original order)
+    fixes.sort(function (a, b) { return (b.w - a.w) || (a.i - b.i); });
+
+    fixList.innerHTML = "";
+    pFixes.innerHTML = "";
+    if (fixes.length === 0) {
+      fixLead.style.display = "none";
+      var good = document.createElement("div");
+      good.className = "all-good";
+      good.textContent = "All twenty checked. Your site is set up to be found, read, and cited by AI assistants. Re-run this after any redesign or migration.";
+      fixList.appendChild(good);
+      var pli = document.createElement("li");
+      pli.textContent = "Nothing outstanding — all twenty checks passed.";
+      pFixes.appendChild(pli);
+    } else {
+      fixLead.style.display = "";
+      fixLead.textContent = checkedCount === 0
+        ? "Every check your site is missing, ranked by impact."
+        : "Do these next — highest impact first.";
+      fixes.forEach(function (f) {
+        var row = document.createElement("div");
+        row.className = "fix";
+        row.title = "Tick this check above once it's done";
+        var chip = document.createElement("span");
+        chip.className = "fix-w";
+        chip.textContent = "≈+" + metaFix(f.w);
+        var txt = document.createElement("span");
+        txt.className = "fix-t";
+        txt.textContent = f.t;
+        row.appendChild(chip); row.appendChild(txt);
+        fixList.appendChild(row);
+
+        var li = document.createElement("li");
+        li.textContent = f.t;
+        pFixes.appendChild(li);
+      });
+    }
+
+    // print report sync
+    pScore.textContent = String(score);
+    pGrade.textContent = g.label;
+    pCount.textContent = checkedCount + " of 20 checks";
+    pSections.innerHTML = "";
+    for (var k = 0; k < 5; k++) {
+      var tr = document.createElement("tr");
+      var td1 = document.createElement("td"); td1.textContent = SECTION_NAMES[k];
+      var td2 = document.createElement("td"); td2.textContent = secChk[k] + " / " + secCnt[k];
+      var td3 = document.createElement("td"); td3.textContent = (Math.round(secRaw[k] * 10) / 10) + " / " + (Math.round(secMax[k] * 10) / 10);
+      tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+      pSections.appendChild(tr);
+    }
+  }
+
+  function setExample(on) {
+    exampleActive = on;
+    if (exampleBanner) exampleBanner.style.display = on ? "flex" : "none";
+  }
+
+  // events
+  checksEl.addEventListener("change", function (e) {
+    if (e.target && e.target.type === "checkbox") {
+      if (exampleActive) setExample(false); // once they edit, it's their own audit
+      saveState();
+      render();
+    }
+  });
+
+  function doReset() {
+    rows.forEach(function (row) { row.querySelector("input").checked = false; });
+    try { window.localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
+    setExample(false);
+    render();
+    JB.toast("Scorecard reset");
+  }
+
+  function loadExample() {
+    rows.forEach(function (row) {
+      var input = row.querySelector("input");
+      input.checked = EXAMPLE_IDS[input.getAttribute("data-id")] === 1;
+    });
+    setExample(true);  // preview only — not saved until the user edits it
+    render();
+    JB.toast("Example site loaded — reset to score your own");
+  }
+
+  function doPrint() { window.print(); }
+
+  document.getElementById("resetBtn").addEventListener("click", doReset);
+  document.getElementById("tryBtn").addEventListener("click", loadExample);
+  document.getElementById("printBtn").addEventListener("click", doPrint);
+
+  var exReset  = document.getElementById("exReset");
+  var barPrint = document.getElementById("barPrint");
+  var barReset = document.getElementById("barReset");
+  if (exReset)  exReset.addEventListener("click", doReset);
+  if (barPrint) barPrint.addEventListener("click", doPrint);
+  if (barReset) barReset.addEventListener("click", doReset);
+
+  // first-run hint (dismissible, persisted)
+  var HINT_KEY  = "jbt.scorecard.hinted";
+  var hintOnce  = document.getElementById("hintOnce");
+  var hintClose = document.getElementById("hintClose");
+  try { if (window.localStorage.getItem(HINT_KEY) && hintOnce) hintOnce.style.display = "none"; } catch (e) { /* ignore */ }
+  if (hintClose) {
+    hintClose.addEventListener("click", function () {
+      if (hintOnce) hintOnce.style.display = "none";
+      try { window.localStorage.setItem(HINT_KEY, "1"); } catch (e) { /* ignore */ }
+    });
+  }
+
+  /* ---------- read-only snapshot for the Pro report builder ----------
+     Derived from the same rows and weights the free scorecard renders from, so
+     the paid report can never disagree with what is on screen. */
+  window.JBScorecard = {
+    SECTION_NAMES: SECTION_NAMES.slice(),
+    gradeFor: gradeFor,
+    snapshot: function () {
+      var secChk = [0, 0, 0, 0, 0], secRaw = [0, 0, 0, 0, 0], secMax = [0, 0, 0, 0, 0], secCnt = [0, 0, 0, 0, 0];
+      var missing = [], passed = [], checkedRaw = 0, checkedCount = 0;
+
+      rows.forEach(function (row, idx) {
+        var input = row.querySelector("input");
+        var w = parseFloat(row.getAttribute("data-w"));
+        var sec = parseInt(row.getAttribute("data-sec"), 10);
+        var item = {
+          id: input.getAttribute("data-id"),
+          weight: w,
+          section: SECTION_NAMES[sec],
+          sectionIndex: sec,
+          fix: row.getAttribute("data-fix"),
+          order: idx
+        };
+        secMax[sec] += w; secCnt[sec] += 1;
+        if (input.checked) {
+          checkedRaw += w; checkedCount += 1; secChk[sec] += 1; secRaw[sec] += w;
+          passed.push(item);
+        } else {
+          missing.push(item);
+        }
+      });
+
+      var maxRaw = secMax.reduce(function (a, b) { return a + b; }, 0);
+      missing.sort(function (a, b) { return (b.weight - a.weight) || (a.order - b.order); });
+
+      return {
+        score: Math.round(checkedRaw / maxRaw * 100),
+        checkedCount: checkedCount,
+        total: rows.length,
+        maxRaw: maxRaw,
+        sections: SECTION_NAMES.map(function (name, i) {
+          return { name: name, checked: secChk[i], count: secCnt[i], raw: secRaw[i], max: secMax[i] };
+        }),
+        missing: missing,
+        passed: passed,
+        isExample: exampleActive
+      };
+    }
+  };
+
+  // boot
+  loadState();
+  render();
+})();
+</script>
+</body>
+</html>
