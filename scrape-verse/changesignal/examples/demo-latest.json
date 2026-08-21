@@ -1,0 +1,22 @@
+[
+  {
+    "id": "76c63fa7acb5d7d23b81",
+    "title": "Agent approval receipts added",
+    "url": "https://example.com/changelog/approval-receipts",
+    "published_at": "2026-08-21T00:00:00.000Z",
+    "summary": "Every irreversible agent action now returns a durable approval receipt.",
+    "source_name": "Example public changelog",
+    "collected_at": "2026-08-21T16:48:20.856Z",
+    "raw_index": 0
+  },
+  {
+    "id": "cc6643162ce66e648d8e",
+    "title": "Public API status endpoint",
+    "url": "https://example.com/changelog/status-endpoint",
+    "published_at": "2026-08-20T16:00:00.000Z",
+    "summary": "A machine-readable status endpoint is now available.",
+    "source_name": "Example public changelog",
+    "collected_at": "2026-08-21T16:48:20.856Z",
+    "raw_index": 1
+  }
+]
