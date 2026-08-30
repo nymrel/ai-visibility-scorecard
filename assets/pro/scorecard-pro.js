@@ -18,19 +18,21 @@
     "static":    { label: "Plain HTML / static host", note: "Root files sit beside index.html. Netlify, Vercel, Cloudflare Pages and S3 all serve them as-is after a redeploy." }
   };
 
-  var SECTION_NAMES = ["Crawl access", "Structured data", "Content signals", "Technical basics", "Authority"];
+  var SECTION_NAMES = ["Access & discovery", "Machine-readable context", "Content clarity", "Technical delivery", "Identity & corroboration"];
 
-  /* The AI crawlers worth naming explicitly. Allow-listed, never blocked. */
-  var AI_AGENTS = [
-    "GPTBot", "OAI-SearchBot", "ChatGPT-User",
-    "ClaudeBot", "Claude-SearchBot", "Claude-User",
-    "PerplexityBot", "Perplexity-User",
-    "Google-Extended", "Applebot-Extended"
+  /* Search/index agents are distinct from training crawlers and user-triggered
+     fetchers. This starting point removes accidental access blocks only when
+     that matches the publisher's policy; it does not promise retrieval. */
+  var SEARCH_AGENTS = [
+    "OAI-SearchBot",
+    "Claude-SearchBot",
+    "PerplexityBot"
   ];
 
   function aiRobotsBlock() {
-    return "# AI assistants and AI search crawlers — allowed on purpose\n" +
-      AI_AGENTS.map(function (a) { return "User-agent: " + a + "\nAllow: /"; }).join("\n\n");
+    return "# AI search/index agents — review against your publisher policy\n" +
+      SEARCH_AGENTS.map(function (a) { return "User-agent: " + a + "\nAllow: /"; }).join("\n\n") +
+      "\n\n# Training crawlers and user-triggered fetchers are separate policy choices.";
   }
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -118,10 +120,10 @@
         if (g && g.label) return g;
       } catch (e) { /* fall through */ }
     }
-    if (score < 40) return { label: "Invisible" };
-    if (score < 65) return { label: "Faint" };
-    if (score < 85) return { label: "Findable" };
-    return { label: "Cited authority" };
+    if (score < 40) return { label: "Needs foundations" };
+    if (score < 65) return { label: "Developing" };
+    if (score < 85) return { label: "Prepared" };
+    return { label: "Strong foundation" };
   }
 
   function maxRawOf(snap) {
@@ -163,15 +165,16 @@
 
   var FIXES = {
 
-    /* ---------- 1 · Crawl access ---------- */
+    /* ---------- 1 · Access & discovery ---------- */
 
     robots: {
-      title: "robots.txt allows AI crawlers",
-      why: "AI crawlers read this file before anything else. A wildcard rule is read conservatively by some of them, so naming each agent removes the ambiguity.",
+      title: "robots.txt reflects your crawler policy",
+      why: "robots.txt communicates crawl preferences to compliant agents. Access remains a publisher choice and does not guarantee crawling, indexing, ranking, or citation.",
       verify: "curl -s " + SITE + "/robots.txt",
       effort: 1,
       steps: [
         "If a robots.txt already exists, merge these blocks into it — do not replace the file, you may already have rules that matter.",
+        "Publish allow rules only when they match your policy. Training crawlers and user-triggered fetchers are separate choices from search/index agents.",
         "Keep the Sitemap: line pointing at a sitemap that actually loads.",
         "Load the file in a private window afterwards. If it downloads instead of displaying, your host is sending the wrong content type — ask them for text/plain."
       ],
@@ -192,9 +195,9 @@
             " */\n" +
             "add_filter( 'robots_txt', function ( $output ) {\n" +
             "\t$agents = array(\n" +
-            "\t\t'" + AI_AGENTS.join("',\n\t\t'") + "',\n" +
+            "\t\t'" + SEARCH_AGENTS.join("',\n\t\t'") + "',\n" +
             "\t);\n\n" +
-            "\t$output .= \"\\n# AI assistants and AI search crawlers — allowed on purpose\\n\";\n" +
+            "\t$output .= \"\\n# AI search/index agents — review against your publisher policy\\n\";\n" +
             "\tforeach ( $agents as $agent ) {\n" +
             "\t\t$output .= \"User-agent: {$agent}\\nAllow: /\\n\\n\";\n" +
             "\t}\n" +
@@ -224,7 +227,7 @@
 
     sitemap: {
       title: "sitemap.xml exists and is linked",
-      why: "A sitemap is the shortest path from a crawler to every page you actually want read. Without the Sitemap: line in robots.txt, it has to be discovered by luck.",
+      why: "A sitemap gives supported crawlers a current URL inventory and can improve discovery efficiency. Inclusion still does not guarantee crawling, indexing, ranking, or citation.",
       verify: "open " + SITE + "/sitemap.xml — every URL in it should load",
       effort: 1,
       steps: [
@@ -274,13 +277,13 @@
 
     llms: {
       title: "llms.txt at your site root",
-      why: "A short, curated map of your site. It is the file an assistant reads to work out which pages are worth reading in full, instead of guessing from your navigation.",
+      why: "llms.txt is an open proposal for a curated site map whose support varies by provider. Google says it does not use llms.txt for search visibility or rankings, so treat it as optional context rather than a universal signal.",
       verify: "open " + SITE + "/llms.txt — it should display as plain text, not download",
       effort: 1,
       steps: [
         "Keep it short. Four to twelve links beats fifty.",
-        "Use absolute URLs — a relative link in this file is worthless to a crawler that found it on its own.",
-        "Rebuild it after a redesign, a migration, or a new product section. A stale map is worse than none.",
+        "Use absolute URLs and verify that each one resolves to the intended public page.",
+        "Keep the file accurate after a redesign, migration, or product change.",
         "The free llms.txt Generator on this site writes the file for you if you would rather not hand-write it."
       ],
       code: {
@@ -306,7 +309,7 @@
 
     ssr: {
       title: "Text works without JavaScript",
-      why: "Most AI crawlers do not run JavaScript. If your headline, prices, and contact details are painted in by JS, the crawler sees an empty shell.",
+      why: "Keeping essential content in the initial HTML improves compatibility with crawlers, assistive technology, link previews, and constrained clients without assuming every provider renders JavaScript the same way.",
       verify: "curl -s " + SITE + "/ | grep -i \"your headline\"  — no match means the text is not in the HTML",
       effort: 1,
       steps: [
@@ -342,7 +345,7 @@
 
     org: {
       title: "Organization schema on the homepage",
-      why: "It states, in a format machines already trust, which real-world business the site belongs to. Without it, an assistant is inferring your identity from page text.",
+      why: "Organization structured data declares explicit identity fields in a machine-readable form. It can support eligible search features, but it is a hint rather than proof of identity, trust, ranking, or citation.",
       verify: "view-source on your home page and search for \"@type\":\"LocalBusiness\", then run the URL through search.google.com/test/rich-results",
       effort: 1,
       steps: [
@@ -360,7 +363,7 @@
             "      <body>\n" +
             "        <script\n" +
             "          type=\"application/ld+json\"\n" +
-            "          dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}\n" +
+            "          dangerouslySetInnerHTML={{ __html: JSON.stringify(org).replace(/</g, '\\\\u003c') }}\n" +
             "        />\n" +
             "        {children}\n" +
             "      </body>\n" +
@@ -395,7 +398,7 @@
             "\t\t),\n" +
             "\t);\n\n" +
             "\techo '<script type=\"application/ld+json\">'\n" +
-            "\t\t. wp_json_encode( $org, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE )\n" +
+            "\t\t. wp_json_encode( $org, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG )\n" +
             "\t\t. '<\/script>' . \"\\n\";\n" +
             "} );"
         },
@@ -433,7 +436,7 @@
 
     offer: {
       title: "Offer / Product schema on offer pages",
-      why: "It lets an assistant quote what you sell and what it costs without guessing from marketing copy — which is where wrong prices come from.",
+      why: "Offer or Product structured data can represent eligible offer details in a machine-readable form. It does not guarantee a rich result, quotation, ranking, recommendation, or correct downstream reuse.",
       verify: "view-source on an offer page and search for \"@type\":\"Offer\", then run it through search.google.com/test/rich-results",
       effort: 1,
       steps: [
@@ -464,7 +467,7 @@
             "    <>\n" +
             "      <script\n" +
             "        type=\"application/ld+json\"\n" +
-            "        dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}\n" +
+            "        dangerouslySetInnerHTML={{ __html: JSON.stringify(service).replace(/</g, '\\\\u003c') }}\n" +
             "      />\n" +
             "      {/* the page itself */}\n" +
             "    </>\n" +
@@ -526,7 +529,7 @@
 
     faqschema: {
       title: "FAQ schema with real questions",
-      why: "Marked-up questions and answers are the easiest thing on your site for an assistant to hand back to a customer, because the answer is already scoped to a question.",
+      why: "FAQ structured data can describe visible question-and-answer content when provider guidelines allow it. It does not guarantee display, summarization, citation, or reuse.",
       verify: "view-source and search for \"FAQPage\", then run the URL through search.google.com/test/rich-results",
       effort: 1,
       steps: [
@@ -554,7 +557,7 @@
             "  ],\n" +
             "};\n\n" +
             "// render alongside the visible FAQ:\n" +
-            "<script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }} />"
+            "<script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(faq).replace(/</g, '\\\\u003c') }} />"
         },
         wordpress: {
           label: "Edit the FAQ page → Custom HTML block, below the visible questions",
@@ -619,7 +622,7 @@
 
     person: {
       title: "Person schema for your founder",
-      why: "It ties a named human to the business and links their profiles, which is one of the few signals that separates a real operation from a template site.",
+      why: "Person structured data can declare a founder relationship and relevant profiles. It is a machine-readable hint, not independent proof that a person, organization, or profile is authentic.",
       verify: "view-source on your about page and search for \"@type\":\"Person\"",
       effort: 1,
       steps: [
@@ -641,7 +644,7 @@
             "    \"https://www.linkedin.com/in/janedoe\",\n" +
             "  ],\n" +
             "};\n\n" +
-            "<script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />"
+            "<script type=\"application/ld+json\" dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, '\\\\u003c') }} />"
         },
         wordpress: {
           label: "Edit the about page → Custom HTML block",
@@ -692,7 +695,7 @@
 
     questions: {
       title: "Headings written as real questions",
-      why: "People ask assistants questions. A heading that already is the question is the easiest thing in your HTML to match against one.",
+      why: "Descriptive headings make page structure easier for people, assistive technology, and automated systems to interpret. Use questions where they fit naturally, not as a rigid ranking tactic.",
       offsite: "content",
       effort: 2,
       steps: [
@@ -714,7 +717,7 @@
 
     plain: {
       title: "Plain language, no insider jargon",
-      why: "An assistant summarising your page has to restate what you do. If the page never says it in plain words, the summary is a guess — and a guess is what gets read to your customer.",
+      why: "Plain language reduces ambiguity for people and automated summaries. It improves clarity without promising that any provider will summarize, cite, or recommend the page.",
       offsite: "content",
       effort: 2,
       steps: [
@@ -737,7 +740,7 @@
 
     contact: {
       title: "Contact info on every page",
-      why: "Handing over contact details is one of the most common things an assistant does on a business's behalf. Details that live only on /contact are easy to miss.",
+      why: "Clear, current contact details help people verify how to reach the business. Publish only channels you actively maintain and avoid assuming a provider will surface them.",
       verify: "view-source on any page and search for mailto: and tel:",
       effort: 1,
       steps: [
@@ -793,7 +796,7 @@
 
     about: {
       title: "A clear about page",
-      why: "It is the page an assistant reads to summarise the business. Whatever it says is what gets repeated — so a vague about page produces a vague summary.",
+      why: "A clear about page provides a stable first-party account of the business for people and automated systems. Providers still choose whether and how to use it.",
       offsite: "content",
       effort: 2,
       steps: [
@@ -825,7 +828,7 @@
 
     canonical: {
       title: "Canonical URL on every page",
-      why: "It settles which URL is the real one. Without it, the same page reachable at four URLs can be cited at whichever one the crawler happened to hit.",
+      why: "A canonical link identifies the preferred URL when substantially similar pages exist. Search systems may treat it as a hint, and it does not control citations or guarantee consolidation.",
       verify: "curl -s " + SITE + "/about | grep canonical",
       effort: 1,
       steps: [
@@ -868,7 +871,7 @@
 
     meta: {
       title: "Open Graph + Twitter tags",
-      why: "These tags are the short description that travels with your link when it is shared or quoted. Leave them out and something else gets picked — usually the first stray sentence on the page.",
+      why: "Open Graph and Twitter tags improve social link previews on platforms that support them. They are not a guarantee that an AI system will quote, rank, or cite the supplied text.",
       verify: "curl -s " + SITE + "/ | grep -E 'og:title|twitter:card'",
       effort: 1,
       steps: [
@@ -956,7 +959,7 @@
 
     speed: {
       title: "Loads fast (under about 2.5s)",
-      why: "Slow pages get crawled less often and abandoned more. The single biggest win on most small sites is images that are far larger than the space they are shown in.",
+      why: "Fast, stable pages improve user experience and reliable delivery. Treat performance thresholds as diagnostic targets, not guarantees of crawling, ranking, citation, or conversion.",
       verify: "run the page through pagespeed.web.dev and read the LCP number",
       effort: 1,
       steps: [
@@ -1017,7 +1020,7 @@
 
     mobile: {
       title: "Readable on a phone",
-      why: "Most visits and most crawls are mobile. A layout that breaks on a phone loses the customer before the assistant's recommendation has done any work.",
+      why: "Responsive, accessible layouts help people use the site across screen sizes and input modes. Verify the real interface rather than assuming a passing score predicts provider behavior.",
       verify: "open the site on a real phone, then re-run pagespeed.web.dev on the Mobile tab",
       effort: 1,
       steps: [
@@ -1061,7 +1064,7 @@
 
     nap: {
       title: "Name, address, phone all match",
-      why: "When the details differ between your site, your Google listing, and your socials, an assistant cannot be confident the three are the same business — so it hedges, or leaves you out.",
+      why: "Consistent public business details reduce avoidable contradictions for people and automated systems. They do not establish identity on their own or guarantee inclusion.",
       offsite: "off-site",
       effort: 3,
       steps: [
@@ -1091,7 +1094,7 @@
 
     sameas: {
       title: "Profiles linked via sameAs",
-      why: "sameAs is how you claim your own profiles. It turns a scattering of pages into one entity an assistant can be confident about.",
+      why: "sameAs declares related official profiles in structured data. It is a relationship hint, not proof of ownership, identity, authority, ranking, or citation.",
       verify: "view-source on your home page and search for \"sameAs\"",
       effort: 1,
       steps: [
@@ -1144,7 +1147,7 @@
 
     proof: {
       title: "Reviews or client proof on-site",
-      why: "Assistants repeat what they can read. Reviews that live only inside a third-party app's JavaScript widget are invisible; the same words in your HTML are quotable.",
+      why: "Authentic, permissioned proof helps people evaluate claims and makes supporting evidence available in the page content. It does not guarantee quotation, citation, or recommendation.",
       offsite: "content",
       effort: 3,
       steps: [
@@ -1174,7 +1177,7 @@
 
     mentions: {
       title: "Mentioned on other sites",
-      why: "What other sites say about you is the signal you do not control, which is exactly why it carries weight. It is also the slowest item on this list.",
+      why: "Relevant, authentic third-party mentions can provide independent context. Their existence does not guarantee rankings, citations, recommendations, traffic, or any provider outcome.",
       offsite: "off-site",
       effort: 3,
       steps: [
@@ -1316,13 +1319,13 @@
       "</ol>" +
 
       "<h2>What this report does not do</h2>" +
-      "<p>Every item here removes a technical or editorial reason for an assistant to skip you, misquote you, or fail to reach you at all. " +
-      "None of it is a guarantee that ChatGPT, Claude, Perplexity, or Gemini will mention you, recommend you, or send you traffic — no one can promise that, " +
-      "and any tool that does is selling you something it cannot deliver. The score is a self-audit: it reflects what you ticked, so it is only as accurate as your ticks.</p>";
+      "<p>These checks cover access and discovery, machine-readable context, content clarity, technical delivery, and identity corroboration. " +
+      "The score is Nymrel's editorial heuristic, not a provider metric, and it reflects only the checks you reported as passing. " +
+      "It does not guarantee crawling, indexing, ranking, citation, recommendation, traffic, conversion, or any other provider or business outcome.</p>";
 
     return JB.pro.reportHtml({
       kicker: "AI Visibility Scorecard · Pro Report",
-      title: "Your AI visibility fix plan",
+      title: "Your discovery-readiness fix plan",
       lede: snap.score + "/100 — " + g.label + ". " + (ordered.length ? ordered.length + " fixes, written for " + p.label + "." : "All checks passing."),
       body: body
     });
@@ -1359,7 +1362,7 @@
     return [
       "AI Visibility Scorecard — Pro Report",
       "Built " + new Date().toLocaleString() + " for " + p.label,
-      "Your score today: " + snap.score + "/100 (" + g.label + ") — " + snap.checkedCount + " of " + snap.total + " checks ticked",
+      "Your readiness score today: " + snap.score + "/100 (" + g.label + ") — " + snap.checkedCount + " of " + snap.total + " checks ticked",
       "",
       "  pro-report.html   Open in a browser. Your score, a per-section table, and every",
       "                    missing check as its own card with a copy-paste fix for " + p.label + ".",
@@ -1378,8 +1381,8 @@
       "a content or off-site task, the report says so plainly and gives the concrete",
       "action instead of a snippet that would not fix anything.",
       "",
-      "Everything here was generated in your browser from the checks you ticked.",
-      "Nothing was uploaded anywhere.",
+      "This artifact was generated in your browser from the checks you ticked.",
+      "Those selections were not attached to a request. The hosted scorecard and its privacy-friendly analytics may still make ordinary page and analytics requests.",
       "",
       "Questions: contact@nymrel.com",
       ""
