@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Visibility Scorecard — See if AI can find your business | Nymrel Tools</title>
-<meta name="description" content="Grade your site against 20 checks that decide whether ChatGPT, Claude, and Perplexity can find, read, and cite it. Free to run — fixes ranked by impact.">
+<title>AI Visibility Scorecard — Audit discovery readiness | Nymrel Tools</title>
+<meta name="description" content="Self-audit 20 access, content, technical, and corroboration foundations relevant to search and AI-assisted discovery. A Nymrel heuristic, not a provider score.">
 <link rel="canonical" href="https://nymrel.com/tools/ai-visibility-scorecard">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nymrel Tools">
-<meta property="og:title" content="AI Visibility Scorecard — See if AI can find your business">
-<meta property="og:description" content="A 20-check self-audit that grades whether AI assistants can find, read, and cite your website — with the fixes that matter most, ranked.">
+<meta property="og:title" content="AI Visibility Scorecard — Audit discovery readiness">
+<meta property="og:description" content="A 20-item self-audit of access, content, technical, and corroboration foundations. It prioritizes gaps without predicting provider outcomes.">
 <meta property="og:url" content="https://nymrel.com/tools/ai-visibility-scorecard">
 <meta property="og:image" content="https://nymrel.com/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI Visibility Scorecard — See if AI can find your business">
-<meta name="twitter:description" content="Grade your site against 20 checks that decide whether ChatGPT, Claude, and Perplexity can find, read, and cite it. Free to run.">
+<meta name="twitter:title" content="AI Visibility Scorecard — Audit discovery readiness">
+<meta name="twitter:description" content="Self-audit 20 discovery-readiness foundations. A Nymrel heuristic, not a provider metric or outcome prediction.">
 <meta name="twitter:image" content="https://nymrel.com/assets/og.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preload" href="/assets/fonts/instrumentserif-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,7 +31,7 @@
       "url": "https://nymrel.com/tools/ai-visibility-scorecard",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web browser",
-      "description": "A 20-check self-audit that grades whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website, then ranks the fixes that matter most.",
+      "description": "A 20-item self-audit of access, machine-readable context, content clarity, technical delivery, and corroboration foundations relevant to search and AI-assisted discovery.",
       "publisher": {
         "@id": "https://nymrel.com/#organization"
       },
@@ -78,7 +78,7 @@
           "name": "What is AI visibility?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website when people ask them questions. It depends on your robots.txt rules, structured data, an llms.txt file, plain content, and off-site proof."
+            "text": "AI visibility describes whether and how a source appears in AI-assisted discovery. Access controls, indexed content, clarity, and independent corroboration can support eligibility, but every provider and query makes its own decisions."
           }
         },
         {
@@ -86,7 +86,7 @@
           "name": "How does the scorecard work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tick every check your site already passes. It scores you 0 to 100, gives you a grade, and ranks the unchecked items by how much each would raise your score. Everything updates live as you tick."
+            "text": "Tick only checks you independently verify. Nymrel's editorial weights produce a 0-to-100 readiness score and prioritize unchecked items. It is not a provider metric and does not predict crawling, indexing, rankings, citations, recommendations, or traffic."
           }
         },
         {
@@ -102,7 +102,7 @@
           "name": "Is my data safe?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Everything runs in your browser. Nothing you tick or type ever leaves your device — there is no server collecting it. Your answers are saved only in this browser so you can come back to them."
+            "text": "Selections are stored in this browser's local storage and are not attached to scorecard requests. A hosted visit still requests static assets and Vercel Web Analytics, so normal hosting and analytics network activity still occurs."
           }
         },
         {
@@ -248,8 +248,9 @@
       <div class="hero-glyph reveal in">
         <div class="tool-glyph" aria-hidden="true"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round"><path d="M8 32 A16 16 0 0 1 40 32"/><path d="M8 32 L11.5 32 M24 16 L24 19.5 M40 32 L36.5 32"/><path d="M24 32 L33 22"/><circle cx="24" cy="32" r="2.4"/></svg></div>
       </div>
-      <h1 class="reveal in" style="max-width:12em">Can ChatGPT find your business?</h1>
-      <p class="lede reveal reveal-1 in">Tick twenty checks and see, in one score out of 100, whether AI assistants can find, read, and cite your site — then get the fixes that matter most, ranked. Everything runs in your browser.</p>
+      <h1 class="reveal in" style="max-width:12em">Audit your discovery foundations.</h1>
+      <p class="lede reveal reveal-1 in">Tick twenty checks you can verify and get a prioritized readiness checklist for search and AI-assisted discovery. The score is Nymrel's heuristic, not a provider metric or outcome prediction.</p>
+      <p class="help reveal reveal-2 in" style="max-width:58em">A complete checklist does not guarantee crawling, indexing, ranking, citation, recommendation, or traffic. Provider behavior and live-site evidence remain separate.</p>
     </div>
   </section>
 
@@ -274,12 +275,12 @@
         <div id="checks">
 
           <div class="check-group" data-group="0">
-            <div class="grp-head"><span class="grp-name">1 · Crawl access <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
-            <label class="check-row" data-sec="0" data-w="6" data-fix="Add User-agent: GPTBot with Allow: / (plus ClaudeBot and PerplexityBot) to your robots.txt.">
+            <div class="grp-head"><span class="grp-name">1 · Access &amp; discovery <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
+            <label class="check-row" data-sec="0" data-w="6" data-fix="Review robots.txt for OAI-SearchBot, Claude-SearchBot, and PerplexityBot according to your publisher policy; keep training-crawler choices separate.">
               <input type="checkbox" data-id="robots">
               <span class="c-body">
-                <strong class="c-t">robots.txt allows AI crawlers</strong>
-                <span class="c-e">AI crawlers read this first. Block them here and nothing else you do matters.</span>
+                <strong class="c-t">Search-agent access policy reviewed</strong>
+                <span class="c-e">Provider-specific rules can permit or block access. An allow rule removes one barrier; it does not guarantee retrieval or inclusion.</span>
                 <span class="c-h">curl yoursite.com/robots.txt</span>
               </span>
             </label>
@@ -287,15 +288,15 @@
               <input type="checkbox" data-id="sitemap">
               <span class="c-body">
                 <strong class="c-t">sitemap.xml exists and is linked</strong>
-                <span class="c-e">A sitemap lists every page you want found, and robots.txt should point to it.</span>
+                <span class="c-e">A valid sitemap gives compatible crawlers a discoverable URL inventory; inclusion still depends on each provider.</span>
                 <span class="c-h">open yoursite.com/sitemap.xml</span>
               </span>
             </label>
             <label class="check-row" data-sec="0" data-w="6" data-fix="Publish /llms.txt at your root — who you are, what you do, and links to your key pages.">
               <input type="checkbox" data-id="llms">
               <span class="c-body">
-                <strong class="c-t">llms.txt at your site root</strong>
-                <span class="c-e">The file AI assistants look for to understand your site quickly.</span>
+                <strong class="c-t">Optional llms.txt proposal reviewed</strong>
+                <span class="c-e">The open proposal can give compatible tools a curated map. Support varies, and Google Search says it ignores llms.txt for visibility and rankings.</span>
                 <span class="c-h">open yoursite.com/llms.txt</span>
               </span>
             </label>
@@ -303,19 +304,19 @@
               <input type="checkbox" data-id="ssr">
               <span class="c-body">
                 <strong class="c-t">Text works without JavaScript</strong>
-                <span class="c-e">Most AI crawlers don't run JavaScript — if your text loads by JS, they see nothing.</span>
+                <span class="c-e">Putting essential copy in the initial HTML improves compatibility with fetchers that do not execute every client-side path.</span>
                 <span class="c-h">curl yoursite.com | find your headline</span>
               </span>
             </label>
           </div>
 
           <div class="check-group" data-group="1">
-            <div class="grp-head"><span class="grp-name">2 · Structured data <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
+            <div class="grp-head"><span class="grp-name">2 · Machine-readable context <b class="grp-count">0/4</b></span><span class="grp-pts">6 pts each</span></div>
             <label class="check-row" data-sec="1" data-w="6" data-fix="Add Organization (or LocalBusiness) JSON-LD to your homepage head — name, logo, and contact.">
               <input type="checkbox" data-id="org">
               <span class="c-body">
                 <strong class="c-t">Organization schema on the homepage</strong>
-                <span class="c-e">Tells AI who you are — name, logo, contact — in a format it trusts.</span>
+                <span class="c-e">Provides explicit identity fields for compatible consumers. It must match visible content and does not establish trust by itself.</span>
                 <span class="c-h">view-source, search "@type":"Organization"</span>
               </span>
             </label>
@@ -323,7 +324,7 @@
               <input type="checkbox" data-id="offer">
               <span class="c-body">
                 <strong class="c-t">Offer / Product schema on offer pages</strong>
-                <span class="c-e">Describes what you sell and the price, so AI can quote it accurately.</span>
+                <span class="c-e">Describes eligible offers in machine-readable form. Correct markup supports interpretation but cannot guarantee accurate quotation or display.</span>
                 <span class="c-h">view-source, search "@type":"Offer"</span>
               </span>
             </label>
@@ -331,7 +332,7 @@
               <input type="checkbox" data-id="faqschema">
               <span class="c-body">
                 <strong class="c-t">FAQ schema with real questions</strong>
-                <span class="c-e">Real questions in schema get read back almost word-for-word by AI.</span>
+                <span class="c-e">Use only where the visible FAQ and provider guidelines support it. Markup is an eligibility signal, not a citation promise.</span>
                 <span class="c-h">view-source, search "FAQPage"</span>
               </span>
             </label>
@@ -339,19 +340,19 @@
               <input type="checkbox" data-id="person">
               <span class="c-body">
                 <strong class="c-t">Person schema for your founder</strong>
-                <span class="c-e">Ties a real person to your brand and links their profiles for credibility.</span>
+                <span class="c-e">Links a public person's declared role and profiles when that relationship is relevant and visible on the page.</span>
                 <span class="c-h">view-source, search "@type":"Person"</span>
               </span>
             </label>
           </div>
 
           <div class="check-group" data-group="2">
-            <div class="grp-head"><span class="grp-name">3 · Content signals <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
-            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Rewrite key headings as the questions customers actually ask (How much, Do you, What is).">
+            <div class="grp-head"><span class="grp-name">3 · Content clarity <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Use descriptive headings and include real customer questions where that structure helps readers; do not force every heading into a question.">
               <input type="checkbox" data-id="questions">
               <span class="c-body">
                 <strong class="c-t">Headings written as real questions</strong>
-                <span class="c-e">AI matches questions to headings — "How much does it cost?" beats "Pricing".</span>
+                <span class="c-e">Descriptive headings help people and machines locate the relevant answer; use the wording that best fits the page.</span>
                 <span class="c-h">read your H2s — are they questions?</span>
               </span>
             </label>
@@ -359,35 +360,35 @@
               <input type="checkbox" data-id="plain">
               <span class="c-body">
                 <strong class="c-t">Plain language, no insider jargon</strong>
-                <span class="c-e">AI and customers can't cite what they can't understand. Say it simply.</span>
+                <span class="c-e">Clear, factual language reduces ambiguity for readers and downstream extraction.</span>
                 <span class="c-h">would a stranger get it with no context?</span>
               </span>
             </label>
-            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Put your email and phone in a footer that shows on every page.">
+            <label class="check-row" data-sec="2" data-w="4.5" data-fix="Publish current, supported contact methods in an easy-to-find contact path and keep them consistent across the site.">
               <input type="checkbox" data-id="contact">
               <span class="c-body">
-                <strong class="c-t">Contact info on every page</strong>
-                <span class="c-e">AI often hands out contact details — bury them and it can't.</span>
-                <span class="c-h">is email + phone in every footer?</span>
+                <strong class="c-t">Current contact path is easy to find</strong>
+                <span class="c-e">Clear contact details help people and compatible tools retrieve the right method without guessing.</span>
+                <span class="c-h">can a visitor find a supported contact method?</span>
               </span>
             </label>
             <label class="check-row" data-sec="2" data-w="4.5" data-fix="Write an /about page that states who you are, what you do, and who you serve — plainly.">
               <input type="checkbox" data-id="about">
               <span class="c-body">
                 <strong class="c-t">A clear about page</strong>
-                <span class="c-e">The page AI reads to summarize your business. Make it specific.</span>
+                <span class="c-e">A factual company or about page provides a stable source for who you are, what you do, and whom you serve.</span>
                 <span class="c-h">does /about say who + what up top?</span>
               </span>
             </label>
           </div>
 
           <div class="check-group" data-group="3">
-            <div class="grp-head"><span class="grp-name">4 · Technical basics <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <div class="grp-head"><span class="grp-name">4 · Technical delivery <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
             <label class="check-row" data-sec="3" data-w="4.5" data-fix="Add a canonical link tag pointing to each page's true URL.">
               <input type="checkbox" data-id="canonical">
               <span class="c-body">
                 <strong class="c-t">Canonical URL on every page</strong>
-                <span class="c-e">Tells AI which URL is the real one, so it cites the right link.</span>
+                <span class="c-e">Signals the preferred URL for duplicate or near-duplicate pages; consumers may still choose differently.</span>
                 <span class="c-h">view-source, find rel="canonical"</span>
               </span>
             </label>
@@ -395,7 +396,7 @@
               <input type="checkbox" data-id="meta">
               <span class="c-body">
                 <strong class="c-t">Open Graph + Twitter tags</strong>
-                <span class="c-e">Controls how your links read when shared or quoted by AI.</span>
+                <span class="c-e">Controls supported social previews. Page titles and descriptions remain separate search and content signals.</span>
                 <span class="c-h">view-source, search og:title + twitter:card</span>
               </span>
             </label>
@@ -403,7 +404,7 @@
               <input type="checkbox" data-id="speed">
               <span class="c-body">
                 <strong class="c-t">Loads fast (under ~2.5s)</strong>
-                <span class="c-e">Slow pages get crawled less and rank lower. Speed is visibility.</span>
+                <span class="c-e">Measured performance supports user experience and reliable delivery; no single speed threshold guarantees ranking or crawling.</span>
                 <span class="c-h">run PageSpeed Insights → check LCP</span>
               </span>
             </label>
@@ -411,19 +412,19 @@
               <input type="checkbox" data-id="mobile">
               <span class="c-body">
                 <strong class="c-t">Readable on a phone</strong>
-                <span class="c-e">Most crawls and most visitors are mobile. Break on a phone, lose both.</span>
+                <span class="c-e">Responsive, accessible pages support visitors and agents using compact viewports.</span>
                 <span class="c-h">open it on your phone — usable?</span>
               </span>
             </label>
           </div>
 
           <div class="check-group" data-group="4">
-            <div class="grp-head"><span class="grp-name">5 · Authority <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
+            <div class="grp-head"><span class="grp-name">5 · Identity &amp; corroboration <b class="grp-count">0/4</b></span><span class="grp-pts">4.5 pts each</span></div>
             <label class="check-row" data-sec="4" data-w="4.5" data-fix="Make your name, address, and phone identical across your site, Google, and every profile.">
               <input type="checkbox" data-id="nap">
               <span class="c-body">
                 <strong class="c-t">Name, address, phone all match</strong>
-                <span class="c-e">Mismatched details make AI unsure it's you — so it hedges or leaves you out.</span>
+                <span class="c-e">Consistent factual identifiers reduce contradictions across first- and third-party sources.</span>
                 <span class="c-h">compare site vs Google vs socials</span>
               </span>
             </label>
@@ -431,7 +432,7 @@
               <input type="checkbox" data-id="sameas">
               <span class="c-body">
                 <strong class="c-t">Profiles linked via sameAs</strong>
-                <span class="c-e">Proves your profiles are really yours and builds a trust graph.</span>
+                <span class="c-e">Declares official profile relationships. Consumers may use the links as identity hints, not proof by themselves.</span>
                 <span class="c-h">view-source, search "sameAs"</span>
               </span>
             </label>
@@ -439,7 +440,7 @@
               <input type="checkbox" data-id="proof">
               <span class="c-body">
                 <strong class="c-t">Reviews or client proof on-site</strong>
-                <span class="c-e">Real proof makes AI confident enough to recommend you by name.</span>
+                <span class="c-e">Truthful, attributable proof helps people evaluate claims; it does not guarantee a provider recommendation.</span>
                 <span class="c-h">any real reviews/clients on the page?</span>
               </span>
             </label>
@@ -447,7 +448,7 @@
               <input type="checkbox" data-id="mentions">
               <span class="c-body">
                 <strong class="c-t">Mentioned on other sites</strong>
-                <span class="c-e">AI trusts what others say about you, not just what you say.</span>
+                <span class="c-e">Independent, authentic sources can corroborate facts. Do not manufacture mentions or treat them as a ranking guarantee.</span>
                 <span class="c-h">web-search your brand name</span>
               </span>
             </label>
@@ -459,7 +460,7 @@
       <!-- RIGHT: live score -->
       <div class="output reveal reveal-2">
         <div class="bench-head">
-          <span><span class="dot"></span>Your score</span>
+          <span><span class="dot"></span>Your readiness score</span>
           <button class="bh-action" id="printBtn" type="button" aria-label="Print my scorecard">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
             Print
@@ -474,15 +475,15 @@
             </svg>
             <div class="gauge-center" aria-live="polite">
               <div class="gauge-num"><span id="scoreVal">0</span><small>/100</small></div>
-              <div class="grade" id="gradeLabel" style="color:var(--bad)">Invisible</div>
+              <div class="grade" id="gradeLabel" style="color:var(--bad)">Needs foundations</div>
             </div>
           </div>
           <div class="score-cap mono" id="scoreCount">0 / 20 checks</div>
 
           <div class="mini-stats" id="miniStats"></div>
 
-          <div class="fix-head">Ranked fixes</div>
-          <p class="fix-lead" id="fixLead">Every check your site is missing, ranked by impact.</p>
+          <div class="fix-head">Prioritized checklist gaps</div>
+          <p class="fix-lead" id="fixLead">Unchecked items ordered by Nymrel's editorial weights.</p>
           <p class="fix-affordance" id="fixAffordance">Fixed one? Tick it above and it drops off this list.</p>
           <div id="fixList"></div>
         </div>
@@ -502,13 +503,13 @@
       </div>
       <div class="stat">
         <div class="snum">STEP 02</div>
-        <h3>Read your score</h3>
-        <p>Your grade updates live — from Invisible to Cited authority — with a per-section breakdown so you see where you're weak.</p>
+        <h3>Read the readiness score</h3>
+        <p>Your self-reported grade updates from Needs foundations to Strong foundation, with a per-section breakdown. It is a prioritization aid, not an external measurement.</p>
       </div>
       <div class="stat">
         <div class="snum">STEP 03</div>
         <h3>Work the fix list</h3>
-        <p>The unchecked items become a to-do list, ranked by impact. Start at the top and print it when you're done.</p>
+        <p>The unchecked items become a to-do list ordered by the scorecard's documented editorial weights. Review applicability before implementing each item.</p>
       </div>
     </div>
   </section>
@@ -556,11 +557,11 @@
     <div class="faq">
       <details>
         <summary>What is AI visibility?</summary>
-        <p class="a">Whether AI assistants like ChatGPT, Claude, and Perplexity can find, read, and cite your website when people ask them questions. It depends on your robots.txt rules, structured data, an llms.txt file, plain content, and off-site proof — the exact things this scorecard checks.</p>
+        <p class="a">AI visibility describes whether and how a source appears in AI-assisted discovery. Access controls, indexed content, clarity, and independent corroboration can support eligibility, but every provider and query makes its own decisions.</p>
       </details>
       <details>
         <summary>How does the scorecard work?</summary>
-        <p class="a">Tick every check your site already passes. It scores you 0 to 100, gives you a grade, and ranks the unchecked items by how much each would raise your score. Everything updates live as you tick — nothing is submitted anywhere.</p>
+        <p class="a">Tick only checks you independently verify. Nymrel's editorial weights produce a 0-to-100 readiness score and prioritize unchecked items. It is not a provider metric and does not predict crawling, indexing, rankings, citations, recommendations, or traffic.</p>
       </details>
       <details>
         <summary>Do I need a developer to fix these?</summary>
@@ -568,7 +569,7 @@
       </details>
       <details>
         <summary>Is my data safe?</summary>
-        <p class="a">Yes. Everything runs in your browser. Nothing you tick or type ever leaves your device — there is no server collecting it. Your answers are saved only in this browser so you can come back to them later.</p>
+        <p class="a">Selections are stored in this browser's local storage and are not attached to scorecard requests. A hosted visit still requests static assets and Vercel Web Analytics, so normal hosting and analytics network activity still occurs.</p>
       </details>
       <details>
         <summary>What do I get in the $9 Pro Report?</summary>
@@ -580,12 +581,12 @@
   <!-- clean print report (screen-hidden; kept in sync by JS) -->
   <section class="print-summary wrap">
     <h2>AI Visibility Scorecard</h2>
-    <p><span class="p-score" id="pScore">0</span>/100 — <strong id="pGrade">Invisible</strong> &nbsp;·&nbsp; <span id="pCount">0 of 20 checks</span></p>
+    <p><span class="p-score" id="pScore">0</span>/100 — <strong id="pGrade">Needs foundations</strong> &nbsp;·&nbsp; <span id="pCount">0 of 20 checks</span></p>
     <table class="data" style="margin:1rem 0">
       <thead><tr><th>Section</th><th>Checks</th><th>Points</th></tr></thead>
       <tbody id="pSections"></tbody>
     </table>
-    <h3 style="font-size:1.2rem">Ranked fixes</h3>
+    <h3 style="font-size:1.2rem">Prioritized checklist gaps</h3>
     <ol id="pFixes"></ol>
     <p class="mono" style="font-size:0.75rem;margin-top:1.2rem">nymrel.com/tools/ai-visibility-scorecard · <span data-year>2026</span></p>
   </section>
@@ -600,7 +601,7 @@
   <div class="wrap cols">
     <div>
       <p class="fh">Nymrel Tools</p>
-      <p style="max-width:26em">Small, sharp tools from a working studio. Everything runs in your browser; nothing you paste leaves your device.</p>
+      <p style="max-width:26em">Small, sharp tools from a working studio. Product selections stay in local storage; hosted pages still load their declared assets and analytics.</p>
       <p class="mono" style="font-size:0.78rem">© <span data-year>2026</span> JalenBuilds LLC</p>
       <p class="mono" style="font-size:0.78rem"><a href="https://nymrel.com?utm_source=jalenbuilds-tools&amp;utm_medium=footer-credit&amp;utm_campaign=built-by-nymrel" rel="author">Built by Nymrel</a></p>
     </div>
@@ -632,7 +633,7 @@
   "use strict";
 
   var STORE_KEY = "jbt.scorecard.checks";
-  var SECTION_NAMES = ["Crawl access", "Structured data", "Content signals", "Technical basics", "Authority"];
+  var SECTION_NAMES = ["Access & discovery", "Machine-readable context", "Content clarity", "Technical delivery", "Identity & corroboration"];
 
   var checksEl   = document.getElementById("checks");
   var scoreVal   = document.getElementById("scoreVal");
@@ -658,10 +659,10 @@
   var rows = Array.prototype.slice.call(checksEl.querySelectorAll(".check-row"));
 
   function gradeFor(score) {
-    if (score < 40) return { label: "Invisible",        color: "var(--bad)",          grad: "linear-gradient(90deg,#8f4034,var(--bad))" };
-    if (score < 65) return { label: "Faint",            color: "var(--warn)",         grad: "linear-gradient(90deg,var(--copper),var(--warn))" };
-    if (score < 85) return { label: "Findable",         color: "var(--brass-bright)", grad: "linear-gradient(90deg,var(--brass),var(--brass-bright))" };
-    return             { label: "Cited authority",  color: "var(--ok)",           grad: "linear-gradient(90deg,#5f9048,var(--ok))" };
+    if (score < 40) return { label: "Needs foundations", color: "var(--bad)",          grad: "linear-gradient(90deg,#8f4034,var(--bad))" };
+    if (score < 65) return { label: "Developing",        color: "var(--warn)",         grad: "linear-gradient(90deg,var(--copper),var(--warn))" };
+    if (score < 85) return { label: "Prepared",          color: "var(--brass-bright)", grad: "linear-gradient(90deg,var(--brass),var(--brass-bright))" };
+    return             { label: "Strong foundation", color: "var(--ok)",           grad: "linear-gradient(90deg,#5f9048,var(--ok))" };
   }
 
   function loadState() {
@@ -688,7 +689,7 @@
     try { window.localStorage.setItem(STORE_KEY, JSON.stringify(ids)); } catch (e) { /* ignore */ }
   }
 
-  function metaFix(w) { return Math.round(w / 102 * 100); } // display impact of one item, ~102 raw total
+  function metaFix(w) { return Math.round(w / 102 * 100); } // Nymrel editorial weight, ~102 raw total
 
   function render() {
     var checkedRaw = 0, checkedCount = 0;
@@ -753,7 +754,7 @@
       fixLead.style.display = "none";
       var good = document.createElement("div");
       good.className = "all-good";
-      good.textContent = "All twenty checked. Your site is set up to be found, read, and cited by AI assistants. Re-run this after any redesign or migration.";
+      good.textContent = "All twenty self-audit items are checked. That indicates this checklist's foundations are present; it does not guarantee crawling, indexing, ranking, citation, recommendation, or traffic. Verify live behavior with provider tools and your own logs.";
       fixList.appendChild(good);
       var pli = document.createElement("li");
       pli.textContent = "Nothing outstanding — all twenty checks passed.";
@@ -761,8 +762,8 @@
     } else {
       fixLead.style.display = "";
       fixLead.textContent = checkedCount === 0
-        ? "Every check your site is missing, ranked by impact."
-        : "Do these next — highest impact first.";
+        ? "Every unchecked item, ordered by Nymrel's editorial weights."
+        : "Review these next — highest editorial weight first.";
       fixes.forEach(function (f) {
         var row = document.createElement("div");
         row.className = "fix";
