@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import { elementIds } from "./html-elements.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const toolPath = "tools/ai-visibility-scorecard/index.html";
@@ -121,12 +122,11 @@ const sectionNames = [
   "Identity & corroboration",
 ];
 for (const name of sectionNames) {
-  check(html.includes(name.replace("&", "&amp;")) || html.includes(name), "page is missing section: " + name);
+  check(html.includes(name.replaceAll("&", "&amp;")) || html.includes(name), "page is missing section: " + name);
   check(proSource.includes(name), "Pro report is missing section: " + name);
 }
 
-const staticMarkup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
-const ids = [...staticMarkup.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+const ids = elementIds(html);
 const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
 check(duplicateIds.length === 0, "duplicate element ids: " + duplicateIds.join(", "));
 
