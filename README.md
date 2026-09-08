@@ -1,30 +1,42 @@
 # AI Visibility Scorecard
 
-Grade your site against the checks that decide whether ChatGPT, Claude, and Perplexity
-can find, read, and cite it. It runs in your browser and ranks the fixes by impact.
+Run a 20-item self-audit of the access, machine-readable context, content clarity,
+technical delivery, and corroboration foundations that can support search and
+AI-assisted discovery.
 
 **Use it:** https://nymrel.com/tools/ai-visibility-scorecard
 
 ## What it does
 
-You give it your site. It walks through the things an AI assistant needs before it can
-quote you — a readable `robots.txt`, a sitemap it can reach, an `llms.txt`, structured
-data, canonical URLs, real page titles and descriptions — and scores each one. The
-output is a ranked list: what is missing, and which gap costs you the most.
+You independently verify each item and tick the ones your site already satisfies. The
+tool applies Nymrel's documented editorial weights and prioritizes the unchecked
+items. The result is a readiness checklist, not a measurement from OpenAI, Anthropic,
+Perplexity, Google, or another provider.
+
+The score cannot prove or predict crawling, indexing, ranking, citation, recommendation,
+or traffic. Provider behavior, query relevance, source quality, and live system state
+remain outside this browser-only self-audit. `llms.txt` is an open proposal with
+variable support; Google Search currently says it ignores the file for visibility and
+rankings.
 
 No account, no email gate, no trial clock.
 
 ## Run it locally
 
-No build step and no dependencies. It is a static page.
+The shipped product has no build step or runtime dependencies. The repository has
+development-only dependencies for repeatable static, browser, accessibility, and
+responsive acceptance.
 
 ```
 git clone https://github.com/nymrel/ai-visibility-scorecard.git
 cd ai-visibility-scorecard
-python3 -m http.server 8000
+npm ci --ignore-scripts
+npx playwright install chromium
+npm run check
 ```
 
-Then open http://localhost:8000/tools/ai-visibility-scorecard/
+For an interactive local server, run `npm run serve:test` and open
+http://localhost:4173/tools/ai-visibility-scorecard/.
 
 The page loads its stylesheet, script, and fonts from absolute paths (`/assets/...`),
 so it needs a server rooted at the repo folder. Opening the HTML file straight from
@@ -50,7 +62,11 @@ to email. The free scorecard is complete on its own.
 
 ## Privacy
 
-Nothing you type leaves your browser. The tool makes no server calls.
+The checked item identifiers are stored in this browser's local storage. The scorecard
+does not attach those selections to its requests. A hosted visit still requests the
+page's static assets and Vercel Web Analytics, so this is not a claim that the page
+makes no network requests. Review Vercel's privacy documentation for the hosted
+analytics boundary.
 
 ## Credits
 
@@ -59,7 +75,8 @@ Font License.
 
 ## Who built it
 
-[Nymrel](https://nymrel.com) — a software studio that builds and runs its own products.
+[Nymrel](https://nymrel.com) — we build and run products, services, websites, software,
+and apps.
 
 ## License
 
