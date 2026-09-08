@@ -1,0 +1,22 @@
+[
+  {
+    "id": "baseline-status",
+    "title": "Public API status endpoint",
+    "url": "https://example.com/changelog/status-endpoint",
+    "published_at": "2026-08-20T16:00:00.000Z",
+    "summary": "A status endpoint is planned.",
+    "source_name": "Example public changelog",
+    "collected_at": "2026-08-20T17:00:00.000Z",
+    "raw_index": 0
+  },
+  {
+    "id": "baseline-retired",
+    "title": "Retired preview feature",
+    "url": "https://example.com/changelog/retired-preview",
+    "published_at": "2026-08-18T12:00:00.000Z",
+    "summary": "A preview that is no longer listed.",
+    "source_name": "Example public changelog",
+    "collected_at": "2026-08-20T17:00:00.000Z",
+    "raw_index": 1
+  }
+]
