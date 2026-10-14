@@ -1,3 +1,4 @@
+import { cssAssetReferences, htmlAssetReferences, verifyLocalAssets } from "./local-assets.mjs";
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -276,24 +277,13 @@ try {
   failures.push("Pro artifact semantic probe failed: " + error.message);
 }
 
-const assetReferences = [...html.matchAll(/<(?:script|link)\b[^>]*(?:src|href)="(\/[^"]+)"[^>]*>/gi)]
-  .map((match) => match[1].split(/[?#]/, 1)[0]);
-for (const reference of assetReferences) {
-  if (reference === "/_vercel/insights/script.js") continue;
-  check(existsSync(join(root, reference.replace(/^\//, ""))), "missing local asset referenced by HTML: " + reference);
-}
+const assetReferences = htmlAssetReferences(html);
+failures.push(...verifyLocalAssets(root, toolPath, assetReferences, {
+  hostedPaths: ["/_vercel/insights/script.js"],
+}));
 
 for (const path of filesUnder("assets").filter((candidate) => candidate.endsWith(".css"))) {
-  const css = read(path);
-  for (const match of css.matchAll(/url\(["']?([^)"']+)["']?\)/gi)) {
-    const reference = match[1].trim().split(/[?#]/, 1)[0];
-    if (/^(?:data:|https?:|%23|#)/i.test(reference)) continue;
-    const target = reference.startsWith("/")
-      ? resolve(root, reference.replace(/^\//, ""))
-      : resolve(dirname(join(root, path)), reference);
-    check(target.startsWith(root), "CSS asset escapes repository root in " + path + ": " + reference);
-    check(existsSync(target), "missing local asset referenced by " + path + ": " + reference);
-  }
+  failures.push(...verifyLocalAssets(root, path, cssAssetReferences(read(path))));
 }
 
 check(!/buy\.stripe\.com/i.test(read("assets/checkout-config.js")), "public checkout template must not embed live payment links");

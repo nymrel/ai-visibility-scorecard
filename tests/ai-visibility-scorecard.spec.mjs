@@ -65,6 +65,14 @@ test("labels a complete self-audit without promising outcomes", async ({ page })
 });
 
 test("has no serious accessibility violations", async ({ page }) => {
+  // Reveal both panels, including the one below the mobile fold, and measure
+  // their final colors rather than a transient frame of the opacity animation.
+  for (const selector of [".controls", ".output"]) {
+    const panel = page.locator(selector);
+    await panel.scrollIntoViewIfNeeded();
+    await expect(panel).toHaveCSS("opacity", "1");
+  }
+  await page.evaluate(() => document.fonts.ready);
   const results = await new AxeBuilder({ page }).analyze();
   const blocking = results.violations.filter((violation) =>
     ["serious", "critical"].includes(violation.impact ?? ""),

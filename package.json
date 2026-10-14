@@ -10,7 +10,7 @@
   },
   "packageManager": "npm@11.19.1",
   "scripts": {
-    "verify:static": "node --test scripts/html-elements.test.mjs && node scripts/verify-static-tool.mjs",
+    "verify:static": "node --test scripts/local-assets.test.mjs && node --test scripts/html-elements.test.mjs && node scripts/verify-static-tool.mjs",
     "serve:test": "serve --no-clipboard --listen 4173 .",
     "test:e2e": "playwright test",
     "check": "npm run verify:static && npm run test:e2e"
@@ -20,5 +20,10 @@
     "@playwright/test": "1.62.1",
     "parse5": "8.0.1",
     "serve": "14.2.6"
+  },
+  "overrides": {
+    "serve": {
+      "compression": "1.8.2"
+    }
   }
 }
