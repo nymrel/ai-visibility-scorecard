@@ -52,7 +52,8 @@ disk will render unstyled.
 | `assets/checkout-config.js` | The checkout registry template |
 | `assets/fonts/` | The three fonts the page uses |
 
-`tools/ai-visibility-scorecard/index.html` is byte-for-byte the file nymrel.com serves.
+`tools/ai-visibility-scorecard/index.html` is the reviewable source for the hosted tool;
+deployment and live-byte identity require separate evidence.
 
 ## A note on the paid tier
 
@@ -71,7 +72,8 @@ analytics boundary.
 ## Credits
 
 Instrument Serif, Instrument Sans, and IBM Plex Mono are used under the SIL Open
-Font License.
+Font License. Their [copyright notices, license texts, and asset inventory](assets/fonts/README.md)
+are included with the bundled fonts.
 
 ## Who built it
 
